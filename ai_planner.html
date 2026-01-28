@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYC Plow Navigator - AI Route Planner</title>
+    <style>
+        body { font-family: 'Courier New', monospace; background: #1a1a1a; color: #00FF00; padding: 20px; }
+        .hero { border: 2px solid #00FF00; padding: 40px; text-align: center; }
+        .cta-button { display: inline-block; background: #00FF00; color: #1a1a1a; padding: 20px 50px; text-decoration: none; border-radius: 10px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🤖 AI Route Planner</h1>
+        <p>Real-time AI route recommendations for snowstorms</p>
+        <form id="routeForm">
+            <input type="text" id="start" placeholder="Starting Address" required>
+            <input type="text" id="end" placeholder="Destination" required>
+            <button type="submit" class="cta-button">🚀 Get AI Route</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('routeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const start = document.getElementById('start').value;
+            const end = document.getElementById('end').value;
+            try {
+                const res = await fetch('http://localhost:5001/api/route', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({start, end})
+                });
+                const data = await res.json();
+                alert('AI Recommended: ' + data.recommendation.recommended_route);
+            } catch (err) { alert('Error: ' + err.message); }
+        });
+    </script>
+</body>
+</html>
